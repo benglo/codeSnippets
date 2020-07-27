@@ -7,25 +7,25 @@ var catScope, regEx, tableName, dictGr, tableGr, fieldGr, fieldArray = [], table
 //Loop through tables to create in CT scope
 //Loop through fields to create in CT scope
 
-regEx = /(x_qwo15_cat_)/;
+regEx = /(x_qwo15_cat_)/; //Scope name
 catScope = 'sys_scope=2a0a9d85db43cc10cf6a6f760596190e';
 
 tableGr = new GlideRecord('sys_db_object');
-tableGr.addEncodedQuery('super_class.labelLIKEExpense^nameLIKEx_qwo15_cat');
+tableGr.addEncodedQuery('super_class.labelLIKEExpense^nameLIKEx_qwo15_cat'); //Find all tables that extend Expense in the CAT scope
 tableGr.query();
 
-while(tableGr.next()) {
+while(tableGr.next()) { //BEGIN THE LOOP!
   fieldArray = [];
-  tableName = tableGr.name.getValue().replace(regEx, "");
+  tableName = tableGr.name.getValue().replace(regEx, ""); //remove scope name
   var lastChar = tableName.charAt(tableName.length-1);
   if(lastChar == 's') {
-    tableName = tableName.slice(0, -1);
+    tableName = tableName.slice(0, -1); //remove trailing s aka fix my mistakes
   }
   dictGr = new GlideRecord('sys_dictionary');
-  dictGr.addEncodedQuery('name='+tableGr.name.getValue());
+  dictGr.addEncodedQuery('name='+tableGr.name.getValue()); //Find all fields on the table
 	dictGr.query();
 	while(dictGr.next()){
-    if(dictGr.internal_type.getValue() != "collection" && dictGr.internal_type.getValue() != "GUID") {
+    if(dictGr.internal_type.getValue() != "collection" && dictGr.internal_type.getValue() != "GUID") { //Exclude the collection and sys_id fields
     fieldArray.push({
         name: dictGr.element.getValue(),
         label: dictGr.column_label.getDisplayValue(),
