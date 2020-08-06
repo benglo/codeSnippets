@@ -57,8 +57,8 @@ for (var i = 0; i < tableArray.length; i++){
 	for (var field = 0; field <fields.length; field++){
 		fieldGr = new GlideRecord('sys_dictionary');
     fieldGr.initialize();
-    fieldGr.name = 'x_qwo15_ct_' + tableArray[i].name;
     fieldGr.column_label = fields[field].label;
+	fieldGr.name = 'x_qwo15_ct_' + tableArray[i].name;
     fieldGr.internal_type = fields[field].type;
     fieldGr.reference = fields[field].reference;
     fieldGr.insert();
